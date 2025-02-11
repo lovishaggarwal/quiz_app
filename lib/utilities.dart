@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizQuestion {
@@ -61,18 +62,34 @@ class AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        backgroundColor: Colors.black38,
-        foregroundColor: Colors.white,
-        alignment: Alignment.center,
-      ),
-      child: Text(optionText,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold)),
-    );
+    return Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: OutlinedButton.icon(
+                      onPressed: onTap,
+                      label: boldText(
+                          textData: optionText, fontSize: 16),
+                      icon: Icon(Icons.radio_button_unchecked_outlined),
+                      style: OutlinedButton.styleFrom(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                        foregroundColor: Colors.black,
+                        side: BorderSide(color: Colors.black, width: 0.3),
+                      ),
+                    ),
+                  );
+    // return ElevatedButton(
+    //   onPressed: onTap,
+    //   style: ElevatedButton.styleFrom(
+    //     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+    //     backgroundColor: Colors.black38,
+    //     foregroundColor: Colors.white,
+    //     alignment: Alignment.center,
+    //   ),
+    //   child: Text(optionText,
+    //       textAlign: TextAlign.center,
+    //       style: TextStyle(fontWeight: FontWeight.bold)),
+    // );
   }
 }
 

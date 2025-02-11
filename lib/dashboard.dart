@@ -9,7 +9,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: bgGrey,
+      resizeToAvoidBottomInset: false,
         body: Column(
           children: [
             Stack(
@@ -40,7 +40,7 @@ class DashboardPage extends StatelessWidget {
             boldText(textData: "Leafboard", fontSize: 40),
             SizedBox(height: 30),
             boldText(
-                textData: 'A platform build for a new way of working',
+                textData: 'A platform build for a new way of learning',
                 fontSize: 14),
             SizedBox(height: MediaQuery.of(context).size.height * 0.2),
             FilledButton.icon(
