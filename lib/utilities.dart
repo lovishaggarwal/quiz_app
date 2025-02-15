@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz_app_1/data/constants.dart';
 
 class QuizQuestion {
   QuizQuestion(
@@ -53,7 +54,7 @@ class GradientContainer extends StatelessWidget {
   }
 }
 
-class AnswerButton extends StatelessWidget {
+class AnswerButton extends StatefulWidget {
   const AnswerButton(
       {required this.optionText, required this.onTap, super.key});
 
@@ -61,23 +62,39 @@ class AnswerButton extends StatelessWidget {
   final String optionText;
 
   @override
+  State<AnswerButton> createState() => _AnswerButtonState();
+}
+
+class _AnswerButtonState extends State<AnswerButton> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(vertical: 5),
-                    child: OutlinedButton.icon(
-                      onPressed: onTap,
-                      label: boldText(
-                          textData: optionText, fontSize: 16),
-                      icon: Icon(Icons.radio_button_unchecked_outlined),
-                      style: OutlinedButton.styleFrom(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                        foregroundColor: Colors.black,
-                        side: BorderSide(color: Colors.black, width: 0.3),
-                      ),
-                    ),
-                  );
+      margin: EdgeInsets.only(bottom: 15),
+      child: MaterialButton(
+        onPressed: widget.onTap,
+        focusColor: btnGreen,
+        hoverColor: btnGreen,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        shape: RoundedRectangleBorder(
+            side: BorderSide(width: 0.3, color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: Row(
+          children: [
+            Icon(Icons.radio_button_unchecked_outlined, size: 18),
+            SizedBox(width: 8),
+            Text(
+              widget.optionText,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  letterSpacing: -0.5),
+            )
+          ],
+        ),
+      ),
+    );
     // return ElevatedButton(
     //   onPressed: onTap,
     //   style: ElevatedButton.styleFrom(
@@ -93,6 +110,67 @@ class AnswerButton extends StatelessWidget {
   }
 }
 
+class CustomButton extends StatefulWidget {
+  final String optionText;
+  final VoidCallback onTap;
+  final String correctAnswer;
+
+  CustomButton({required this.optionText, required this.onTap, required this.correctAnswer});
+
+  @override
+  _CustomButtonState createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  // Color buttonColor = Colors.transparent;
+  // Color buttonColor = Colors.green;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 15),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            if (widget.correctAnswer == widget.optionText){
+              // buttonColor = btnGreen;
+              print('fluttergood');
+            }
+            else {
+            // buttonColor = Colors.redAccent;
+            print('flutterqwerty');
+            }
+          });
+          widget.onTap();
+        },
+        splashColor: widget.correctAnswer == widget.optionText ? btnGreen : Colors.redAccent, // Splash effect
+        borderRadius: BorderRadius.circular(30), // Rounded corners
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            // color: buttonColor, // Dynamic background color
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(width: 0.3, color: Colors.black),
+          ),
+          child: Text(
+            widget.optionText,
+            // overflow: TextOverflow.ellipsis,
+            // overflow: TextOverflow.visible,
+            softWrap: true,
+            style: GoogleFonts.quicksand(
+              
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              letterSpacing: -0.5,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 Widget boldText({required String textData, required double fontSize}) {
   return Text(
     textData,
@@ -101,11 +179,15 @@ Widget boldText({required String textData, required double fontSize}) {
   );
 }
 
-Widget normallText({required String textData, required double fontSize, FontWeight? fontWeight}) {
+Widget normallText(
+    {required String textData,
+    required double fontSize,
+    FontWeight? fontWeight}) {
   return Text(
     textData,
     style: GoogleFonts.quicksand(
-        fontWeight: fontWeight ??= FontWeight.normal, fontSize: fontSize, letterSpacing: -0.5),
+        fontWeight: fontWeight ??= FontWeight.normal,
+        fontSize: fontSize,
+        letterSpacing: -0.5),
   );
 }
-

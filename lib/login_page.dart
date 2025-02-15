@@ -135,7 +135,6 @@ class _LoginPageState extends State<LoginPage> {
                     boldText(textData: 'Choose a password', fontSize: 16),
                     SizedBox(height: 10),
                     PasswordField(
-                      // backgroundColor: Colors.blue.withValues(alpha: 0.2),
                       errorMessage: '''
 Password should have:
 - uppercase letter(s)
@@ -143,6 +142,8 @@ Password should have:
 - digit(s)
 - special character(s)
 - minimum length of 8 characters''',
+                      passwordDecoration: PasswordDecoration(
+                          errorStyle: TextStyle(fontSize: 13)),
                       border: PasswordBorder(
                         border: OutlineInputBorder(
                             borderSide:
@@ -165,7 +166,7 @@ Password should have:
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
                     Container(
                       width: double.infinity,
                       child: FilledButton.icon(
@@ -187,80 +188,82 @@ Password should have:
                         label: boldText(textData: 'Continue', fontSize: 16),
                       ),
                     ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: <Widget>[
+                        Expanded(child: Divider(thickness: 0.3)),
+                        Text(" or "),
+                        Expanded(child: Divider(thickness: 0.3)),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+
+                    // Other Sign In Button (Google/iOS/phone)
+                    Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () {},
+                            label: boldText(
+                                textData: 'Sign in with Google', fontSize: 15),
+                            icon: SvgPicture.asset(
+                              'assets/images/google.svg',
+                              semanticsLabel: 'Google Logo',
+                              height: 20,
+                              width: 20,
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 14),
+                              foregroundColor: Colors.black,
+                              side: BorderSide(color: Colors.black, width: 0.3),
+                            ),
+                          ),
+                        ),
+                        // Is platform is iOS or macOS, show apple sign in
+                        if (Platform.isIOS || Platform.isMacOS) ...[
+                          SizedBox(height: 20),
+                          Container(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: () {},
+                              label: boldText(
+                                  textData: 'Sign in with Apple', fontSize: 15),
+                              icon: Image.asset('assets/images/apple.png',
+                                  height: 25),
+                              style: OutlinedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 14),
+                                foregroundColor: Colors.black,
+                                side:
+                                    BorderSide(color: Colors.black, width: 0.3),
+                              ),
+                            ),
+                          ),
+                        ],
+                        SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () {},
+                            label: boldText(
+                                textData: 'Sign in with Phone', fontSize: 15),
+                            icon: SvgPicture.asset(
+                              'assets/images/phone.svg',
+                              semanticsLabel: 'Phone Logo',
+                              height: 20,
+                              width: 20,
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 14),
+                              foregroundColor: Colors.black,
+                              side: BorderSide(color: Colors.black, width: 0.3),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(child: Divider(thickness: 0.3)),
-                  Text(" or "),
-                  Expanded(child: Divider(thickness: 0.3)),
-                ],
-              ),
-              SizedBox(height: 20),
-
-              // Other Sign In Button (Google/iOS/phone)
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: () {},
-                      label: boldText(
-                          textData: 'Sign in with Google', fontSize: 15),
-                      icon: SvgPicture.asset(
-                        'assets/images/google.svg',
-                        semanticsLabel: 'Google Logo',
-                        height: 20,
-                        width: 20,
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        foregroundColor: Colors.black,
-                        side: BorderSide(color: Colors.black, width: 0.3),
-                      ),
-                    ),
-                  ),
-                  // Is platform is iOS or macOS, show apple sign in
-                  if (Platform.isIOS || Platform.isMacOS) ...[
-                    SizedBox(height: 15),
-                    Container(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        label: boldText(
-                            textData: 'Sign in with Apple', fontSize: 15),
-                        icon:
-                            Image.asset('assets/images/apple.png', height: 25),
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 14),
-                          foregroundColor: Colors.black,
-                          side: BorderSide(color: Colors.black, width: 0.3),
-                        ),
-                      ),
-                    ),
-                  ],
-                  SizedBox(height: 15),
-                  Container(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: () {},
-                      label: boldText(
-                          textData: 'Sign in with Phone', fontSize: 15),
-                      icon: SvgPicture.asset(
-                        'assets/images/phone.svg',
-                        semanticsLabel: 'Google Logo',
-                        height: 20,
-                        width: 20,
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        foregroundColor: Colors.black,
-                        side: BorderSide(color: Colors.black, width: 0.3),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ],
           ),

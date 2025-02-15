@@ -10,7 +10,8 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-        body: Column(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             Stack(
               alignment: AlignmentDirectional.bottomCenter,
@@ -37,14 +38,14 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-            boldText(textData: "Leafboard", fontSize: 40),
-            SizedBox(height: 30),
+            boldText(textData: "Leafboard", fontSize: 50),
+            SizedBox(height: 25),
             boldText(
                 textData: 'A platform build for a new way of learning',
-                fontSize: 14),
+                fontSize: 18),
             SizedBox(height: MediaQuery.of(context).size.height * 0.2),
             FilledButton.icon(
-              icon: Icon(Icons.arrow_right_alt),
+              icon: Icon(Icons.arrow_forward_ios_outlined, size: 15),
               iconAlignment: IconAlignment.end,
               onPressed: () {
                 Navigator.push(
@@ -52,15 +53,17 @@ class DashboardPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(btnGreen),
-                foregroundColor: WidgetStatePropertyAll(Colors.black),
-                iconColor: WidgetStatePropertyAll(Colors.black),
+              style: FilledButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                backgroundColor: btnGreen,
+                foregroundColor: Colors.black,
+                iconColor: Colors.black,
               ),
-              label: boldText(textData: 'Get started for free', fontSize: 14),
+              label: boldText(textData: 'Get started for free', fontSize: 16),
             ),
           ],
         ),
+      ),
     );
   }
 }

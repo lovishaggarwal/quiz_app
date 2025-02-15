@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app_1/data/constants.dart';
 import 'package:quiz_app_1/data/questions.dart';
+import 'package:quiz_app_1/result_page.dart';
 import 'package:quiz_app_1/utilities.dart';
 
 class QuestionsPage extends StatefulWidget {
@@ -15,21 +16,31 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
   int correctCount = 0;
 
+  List<List<String>> responseData = [];
+
   void checkAnswer(String userChoice) {
     // if ((currentQuestion.answer).toString() == userChoice) {
     //   correctCount += 1;
     // }
     if (userChoice == questions[currentQuestionNo].answer) {
       correctCount++;
-      print('You got it right!');
-    } else {
-      print('Wrong Answer');
     }
+    responseData.add([
+      questions[currentQuestionNo].question,
+      userChoice,
+      questions[currentQuestionNo].answer
+    ]);
     setState(() {
       if (currentQuestionNo < questions.length - 1) {
         currentQuestionNo++;
       } else {
-        print('the end');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ResultPage(
+                  currentScore: correctCount, responseData: responseData)),
+          (route) => false,
+        );
       }
     });
   }
@@ -72,11 +83,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
             SizedBox(height: 20),
             ...shuffleOptions.map(
               (option) {
-                return AnswerButton(
+                return CustomButton(
                   onTap: () {
                     checkAnswer(option);
                   },
                   optionText: option,
+                  correctAnswer: questions[currentQuestionNo].answer,
                 );
               },
             ),
