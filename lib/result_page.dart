@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:quiz_app_1/dashboard.dart';
 import 'package:quiz_app_1/data/constants.dart';
 import 'package:quiz_app_1/data/questions.dart';
 import 'package:quiz_app_1/question_page.dart';
@@ -13,12 +15,23 @@ class ResultPage extends StatelessWidget {
   final List<List<String>> responseData;
   final int totalQuestions = questions.length;
 
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     final int percentage = (currentScore * 100 / totalQuestions).toInt();
     print(responseData);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: (() async {
+            await signOut();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage()));
+
+          }),
+          child: Icon(Icons.exit_to_app)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

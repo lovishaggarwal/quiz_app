@@ -28,18 +28,42 @@ class _LoginPageState extends State<LoginPage> {
 
   bool btnVisible = false;
 
-  googleSignIn() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<void> googleSignIn(
+    void Function(String errorMessage) errorCallback,
+  ) async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                    content: Text('Welcome ' + FirebaseAuth.instance.currentUser!.email.toString()),
+                                    duration: Duration(seconds: 5),
+                                    ),
+                                );
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const QuestionsPage()));
+
+    } on PlatformException catch (e) {
+      if (e.code == GoogleSignIn.kNetworkError) {
+        String errorMessage =
+            "A network error (such as timeout, interrupted connection or unreachable host) has occurred.";
+        errorCallback(errorMessage);
+      } else {
+        String errorMessage = "Something went wrong.";
+        errorCallback(errorMessage);
+      }
+    }
   }
 
   @override
@@ -222,12 +246,15 @@ Password should have:
                           width: double.infinity,
                           child: OutlinedButton.icon(
                             onPressed: (() async {
-                              await googleSignIn();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const QuestionsPage()));
+                              await googleSignIn((errorMessage) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                    content: Text(errorMessage),
+                                    duration: Duration(seconds: 5),
+                                    ),
+                                );
+                                print(errorMessage);
+                              });
                             }),
                             label: boldText(
                                 textData: 'Sign in with Google', fontSize: 15),
