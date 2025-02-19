@@ -12,6 +12,7 @@ A quiz app with basic dashboard and sign-ins.
 - Dashboard page
 - Updated app icon and splash screen
 - Sign-in page with email, apple, phone and google sign-ins
+- Phone OTP sign-in page with custom phone number and pin input
 - Auto-detection for iOS or macOS devices for apple sign-in
 - Quiz page with correct answer detection
 - Result page with percentage indicator and answer sheet
