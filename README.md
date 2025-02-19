@@ -1,16 +1,17 @@
-# quiz_app_1
+# quiz_app
 
-A new Flutter project.
+A quiz app with basic dashboard and sign-ins.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. You need to set up Firebase in order to use sign in services.
+2. Please add *google-services.json* on path */android/app/* to get started with sign-ins.
 
-A few resources to get you started if this is your first Flutter project:
+## Features:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Dashboard page
+- Updated app icon and splash screen
+- Sign-in page with email, apple, phone and google sign-ins
+- Auto-detection for iOS or macOS devices for apple sign-in
+- Quiz page with correct answer detection
+- Result page with percentage indicator and answer sheet
