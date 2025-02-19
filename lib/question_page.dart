@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app_1/dashboard.dart';
 import 'package:quiz_app_1/data/constants.dart';
 import 'package:quiz_app_1/data/questions.dart';
 import 'package:quiz_app_1/result_page.dart';
@@ -45,6 +47,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
     });
   }
 
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     // int _selectedValue = 1;
@@ -53,6 +59,13 @@ class _QuestionsPageState extends State<QuestionsPage> {
     shuffleOptions.shuffle();
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: (() async {
+            await signOut();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage()));
+
+          }),
+          child: Icon(Icons.exit_to_app)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

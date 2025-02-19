@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'package:quiz_app_1/data/constants.dart';
+import 'package:quiz_app_1/phone_signin.dart';
 import 'package:quiz_app_1/question_page.dart';
 import 'package:quiz_app_1/utilities.dart';
 import 'dart:io' show Platform;
@@ -24,6 +27,20 @@ class _LoginPageState extends State<LoginPage> {
   Color emailBorderColor = Colors.black45;
 
   bool btnVisible = false;
+
+  googleSignIn() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +221,14 @@ Password should have:
                         Container(
                           width: double.infinity,
                           child: OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: (() async {
+                              await googleSignIn();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const QuestionsPage()));
+                            }),
                             label: boldText(
                                 textData: 'Sign in with Google', fontSize: 15),
                             icon: SvgPicture.asset(
@@ -244,7 +268,14 @@ Password should have:
                         Container(
                           width: double.infinity,
                           child: OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PhoneSignInPage()),
+                              );
+                            },
                             label: boldText(
                                 textData: 'Sign in with Phone', fontSize: 15),
                             icon: SvgPicture.asset(
